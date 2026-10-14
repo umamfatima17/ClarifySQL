@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 
 from core.query_engine import (
     _normalize_question,
@@ -451,3 +452,46 @@ class TestAdditionalReliability(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+
+class TestAIFallback(unittest.TestCase):
+
+    def test_successful_ai_fallback_validates_and_executes_sql(self):
+        sql = "SELECT product_name FROM products LIMIT 1"
+
+        with patch(
+            "core.ai_sql_generator.generate_sql", return_value=sql
+        ) as generator, patch(
+            "core.query_engine.validate_read_only_sql", return_value=sql
+        ) as validator, patch(
+            "core.query_engine.execute_read_only_sql",
+            return_value=(["product_name"], [("Pen",)]),
+        ) as executor:
+            result = answer_question("Tell me a joke")
+
+        self.assertEqual(result["intent"], "ai_generated_select")
+        self.assertEqual(result["validation_status"], "Passed")
+        self.assertEqual(result["execution_status"], "Succeeded")
+        self.assertEqual(result["retry_count"], 0)
+        generator.assert_called_once()
+        validator.assert_called_once_with(sql)
+        executor.assert_any_call(sql)
+        self.assertGreaterEqual(executor.call_count, 1)
+
+    def test_ai_fallback_reports_failure_after_three_attempts(self):
+        with patch(
+            "core.ai_sql_generator.generate_sql",
+            side_effect=[
+                RuntimeError("first failure"),
+                RuntimeError("second failure"),
+                RuntimeError("schema mismatch"),
+            ],
+        ) as generator:
+            with self.assertRaisesRegex(
+                ValueError, "AI SQL fallback failed after 3 attempt"
+            ) as raised:
+                answer_question("Tell me a joke")
+
+        self.assertEqual(generator.call_count, 3)
+        self.assertIn("schema mismatch", str(raised.exception))

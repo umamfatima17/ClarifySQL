@@ -967,6 +967,12 @@ def answer_question(question, filter_context=None):
             if ai_answered:
                 continue
 
+            fallback_error = None
+            if generation_error is not None:
+                fallback_error = (
+                    f"AI SQL fallback failed after {attempt + 1} attempt(s): "
+                    f"{generation_error}"
+                )
 
             answers.append({
                 "question": item,
@@ -974,7 +980,7 @@ def answer_question(question, filter_context=None):
                 "intent": None,
                 "follow_up_context": follow_up_context,
                 "interpretation": "Question not supported",
-                "error": str(exc),
+                "error": fallback_error or str(exc),
                 "sql": None,
                 "validation_status": "Not run",
                 "execution_status": "Not run",
