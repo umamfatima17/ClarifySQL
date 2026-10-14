@@ -1,14 +1,14 @@
 {
-  "dataset_size": 20,
+  "dataset_size": 28,
   "class_distribution": {
-    "needs_clarification": 5,
-    "does_not_need_clarification": 15
+    "needs_clarification": 9,
+    "does_not_need_clarification": 19
   },
   "clarification_detector": {
-    "total": 20,
-    "true_positive": 5,
+    "total": 28,
+    "true_positive": 9,
     "false_positive": 0,
-    "true_negative": 15,
+    "true_negative": 19,
     "false_negative": 0,
     "accuracy": 1.0,
     "precision": 1.0,
@@ -134,16 +134,64 @@
         "expected_clarification": false,
         "predicted_clarification": false,
         "correct": true
+      },
+      {
+        "question": "Top products dikhao",
+        "expected_clarification": true,
+        "predicted_clarification": true,
+        "correct": true
+      },
+      {
+        "question": "Sabse achha product kaunsa hai?",
+        "expected_clarification": true,
+        "predicted_clarification": true,
+        "correct": true
+      },
+      {
+        "question": "Kaun se products popular hain?",
+        "expected_clarification": true,
+        "predicted_clarification": true,
+        "correct": true
+      },
+      {
+        "question": "Best products batao",
+        "expected_clarification": true,
+        "predicted_clarification": true,
+        "correct": true
+      },
+      {
+        "question": "Revenue ke hisaab se top 5 products batao",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Sabse zyada units bechne wale products dikhao",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Total munafa kitna hai?",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Wireless Mouse ki revenue batao",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
       }
     ]
   },
   "baseline_never_clarifies": {
-    "total": 20,
+    "total": 28,
     "true_positive": 0,
     "false_positive": 0,
-    "true_negative": 15,
-    "false_negative": 5,
-    "accuracy": 0.75,
+    "true_negative": 19,
+    "false_negative": 9,
+    "accuracy": 0.6786,
     "precision": 0.0,
     "recall": 0.0,
     "f1": 0.0,
@@ -264,6 +312,54 @@
       },
       {
         "question": "Show the highest gross profit product",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Top products dikhao",
+        "expected_clarification": true,
+        "predicted_clarification": false,
+        "correct": false
+      },
+      {
+        "question": "Sabse achha product kaunsa hai?",
+        "expected_clarification": true,
+        "predicted_clarification": false,
+        "correct": false
+      },
+      {
+        "question": "Kaun se products popular hain?",
+        "expected_clarification": true,
+        "predicted_clarification": false,
+        "correct": false
+      },
+      {
+        "question": "Best products batao",
+        "expected_clarification": true,
+        "predicted_clarification": false,
+        "correct": false
+      },
+      {
+        "question": "Revenue ke hisaab se top 5 products batao",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Sabse zyada units bechne wale products dikhao",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Total munafa kitna hai?",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Wireless Mouse ki revenue batao",
         "expected_clarification": false,
         "predicted_clarification": false,
         "correct": true

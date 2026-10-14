@@ -32,7 +32,7 @@ def _is_product_ranking(text):
     has_product = bool(re.search(r"\b(products?|items?)\b", text))
     ranking = bool(
         re.search(
-            r"\b(top|best|popular|most popular|top selling|best selling)\b",
+            r"\b(top|best|popular|most popular|top selling|best selling|sabse achha|sabse acha|sabse accha|behtareen)\b",
             text,
         )
     )

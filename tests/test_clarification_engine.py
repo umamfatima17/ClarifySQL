@@ -13,6 +13,15 @@ class TestStructuredClarification(unittest.TestCase):
             ["Revenue", "Gross profit", "Units sold"],
         )
 
+    def test_hinglish_ambiguous_best_product_requests_metric(self):
+        result = detect_clarification("Sabse achha product kaunsa hai?")
+        self.assertIsNotNone(result)
+        self.assertEqual(result["dimension"], "metric")
+        self.assertEqual(
+            result["options"],
+            ["Revenue", "Gross profit", "Units sold"],
+        )
+
     def test_best_product_with_explicit_metric_needs_no_metric_clarification(self):
         result = detect_clarification(
             "Which product generated the most revenue?"

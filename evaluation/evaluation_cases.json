@@ -1,23 +1,114 @@
-﻿[
-  {"question": "Show me the top products", "needs_clarification": true},
-  {"question": "Which are the best products?", "needs_clarification": true},
-  {"question": "List popular items", "needs_clarification": true},
-  {"question": "Show top-selling products", "needs_clarification": true},
-  {"question": "Find the best products in Electronics", "needs_clarification": true},
-
-  {"question": "Show the top 5 products by revenue", "needs_clarification": false},
-  {"question": "Which product generated the most revenue?", "needs_clarification": false},
-  {"question": "Which product sold the most units?", "needs_clarification": false},
-  {"question": "What is the total revenue?", "needs_clarification": false},
-  {"question": "What is the total gross profit?", "needs_clarification": false},
-  {"question": "Show monthly revenue", "needs_clarification": false},
-  {"question": "Compare revenue in January and February 2026", "needs_clarification": false},
-  {"question": "List all product categories", "needs_clarification": false},
-  {"question": "Show completed orders", "needs_clarification": false},
-  {"question": "How many orders were cancelled?", "needs_clarification": false},
-  {"question": "Show top products by revenue", "needs_clarification": false},
-  {"question": "Show best-selling items by units sold", "needs_clarification": false},
-  {"question": "Calculate revenue for Wireless Mouse", "needs_clarification": false},
-  {"question": "Show products in the Accessories category", "needs_clarification": false},
-  {"question": "Show the highest gross profit product", "needs_clarification": false}
+[
+  {
+    "question": "Show me the top products",
+    "needs_clarification": true
+  },
+  {
+    "question": "Which are the best products?",
+    "needs_clarification": true
+  },
+  {
+    "question": "List popular items",
+    "needs_clarification": true
+  },
+  {
+    "question": "Show top-selling products",
+    "needs_clarification": true
+  },
+  {
+    "question": "Find the best products in Electronics",
+    "needs_clarification": true
+  },
+  {
+    "question": "Show the top 5 products by revenue",
+    "needs_clarification": false
+  },
+  {
+    "question": "Which product generated the most revenue?",
+    "needs_clarification": false
+  },
+  {
+    "question": "Which product sold the most units?",
+    "needs_clarification": false
+  },
+  {
+    "question": "What is the total revenue?",
+    "needs_clarification": false
+  },
+  {
+    "question": "What is the total gross profit?",
+    "needs_clarification": false
+  },
+  {
+    "question": "Show monthly revenue",
+    "needs_clarification": false
+  },
+  {
+    "question": "Compare revenue in January and February 2026",
+    "needs_clarification": false
+  },
+  {
+    "question": "List all product categories",
+    "needs_clarification": false
+  },
+  {
+    "question": "Show completed orders",
+    "needs_clarification": false
+  },
+  {
+    "question": "How many orders were cancelled?",
+    "needs_clarification": false
+  },
+  {
+    "question": "Show top products by revenue",
+    "needs_clarification": false
+  },
+  {
+    "question": "Show best-selling items by units sold",
+    "needs_clarification": false
+  },
+  {
+    "question": "Calculate revenue for Wireless Mouse",
+    "needs_clarification": false
+  },
+  {
+    "question": "Show products in the Accessories category",
+    "needs_clarification": false
+  },
+  {
+    "question": "Show the highest gross profit product",
+    "needs_clarification": false
+  },
+  {
+    "question": "Top products dikhao",
+    "needs_clarification": true
+  },
+  {
+    "question": "Sabse achha product kaunsa hai?",
+    "needs_clarification": true
+  },
+  {
+    "question": "Kaun se products popular hain?",
+    "needs_clarification": true
+  },
+  {
+    "question": "Best products batao",
+    "needs_clarification": true
+  },
+  {
+    "question": "Revenue ke hisaab se top 5 products batao",
+    "needs_clarification": false
+  },
+  {
+    "question": "Sabse zyada units bechne wale products dikhao",
+    "needs_clarification": false
+  },
+  {
+    "question": "Total munafa kitna hai?",
+    "needs_clarification": false
+  },
+  {
+    "question": "Wireless Mouse ki revenue batao",
+    "needs_clarification": false
+  }
 ]
