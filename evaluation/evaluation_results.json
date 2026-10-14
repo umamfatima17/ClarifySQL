@@ -1,5 +1,9 @@
 {
   "dataset_size": 20,
+  "class_distribution": {
+    "needs_clarification": 5,
+    "does_not_need_clarification": 15
+  },
   "clarification_detector": {
     "total": 20,
     "true_positive": 5,

@@ -71,6 +71,8 @@ def main():
     if not isinstance(cases, list) or not cases:
         raise SystemExit("Evaluation dataset must be a non-empty JSON list.")
 
+    seen_questions = set()
+
     for index, case in enumerate(cases, start=1):
         if (
             not isinstance(case, dict)
@@ -80,11 +82,24 @@ def main():
         ):
             raise SystemExit(f"Invalid dataset record at index {index}.")
 
+        normalized_question = " ".join(case["question"].casefold().split())
+        if normalized_question in seen_questions:
+            raise SystemExit(
+                f"Duplicate question at dataset index {index}: "
+                f"{case['question']}"
+            )
+        seen_questions.add(normalized_question)
+
+    positive_cases = sum(case["needs_clarification"] for case in cases)
+    negative_cases = len(cases) - positive_cases
+
     engine = score_cases(cases, use_engine=True)
     baseline = score_cases(cases, use_engine=False)
 
     print(f"Dataset: {dataset_path}")
     print(f"Cases: {len(cases)}")
+    print(f"Needs clarification: {positive_cases}")
+    print(f"Does not need clarification: {negative_cases}")
     print("\nClarifySQL clarification detector")
     print(f"Accuracy:  {engine['accuracy']:.1%}")
     print(f"Precision: {engine['precision']:.1%}")
@@ -103,6 +118,10 @@ def main():
 
     output = {
         "dataset_size": len(cases),
+        "class_distribution": {
+            "needs_clarification": positive_cases,
+            "does_not_need_clarification": negative_cases,
+        },
         "clarification_detector": engine,
         "baseline_never_clarifies": baseline,
         "note": (
