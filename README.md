@@ -1,22 +1,25 @@
 # ClarifySQL
 
-### Ask business questions. Get data-backed answers.
+**Turn business questions into validated, data-backed answers.**
 
-ClarifySQL is a Python and Streamlit business analytics application that lets users explore sample retail sales data by asking supported questions in natural language. It uses predefined SQL templates and a local SQLite database. It does not currently connect to an external AI API or generate unrestricted SQL using an LLM.
+ClarifySQL is a Streamlit-based business analytics application that lets users explore retail sales data through natural-language questions. It combines deterministic query handling, clarification for ambiguous questions, SQL validation, and a local SQLite database.
+
+The project is designed as a local demonstration of Python, SQL, analytics, and responsible query execution.
 
 ## Features
 
-- Business overview dashboard
-- Natural-language questions in English, Hinglish, and selected Hindi patterns
-- Revenue and profit analysis
-- Product and category performance
-- Monthly revenue and month-over-month comparison
-- Missing calendar months are shown as unavailable; comparisons that depend on missing-month data are not calculated.
-- Product revenue decline analysis across the two latest available months
-- Completed and cancelled order analysis
-- Multiple-question handling for supported patterns
-- Read-only SQL validation and SQLite safeguards
-- Automated unit tests
+- **Business dashboard:** Explore available retail sales data and analytics.
+- **Natural-language queries:** Ask supported business questions in English, Hinglish, and selected Hindi patterns.
+- **Clarification-first workflow:** Resolve ambiguous questions before running a query.
+- **Revenue and profit analytics:** Explore sales performance, products, categories, and monthly trends.
+- **Monthly comparisons:** Compare revenue across months and analyze supported changes.
+- **Order analysis:** Explore supported completed and cancelled order questions.
+- **Saved clarification sessions:** Store, resume, and review pending clarification conversations.
+- **SQL safety:** Validate queries before execution and restrict analytics queries to read-only operations.
+- **Optional AI SQL fallback:** Enable an OpenAI-compatible chat-completions endpoint with an API key.
+- **Evaluation and tests:** Run ambiguity-detection evaluation and automated unit tests.
+
+Question recognition is based on supported patterns and available data. The application does not understand every possible business question.
 
 ## Technology Stack
 
@@ -32,26 +35,37 @@ ClarifySQL is a Python and Streamlit business analytics application that lets us
 
 ```text
 ClarifySQL/
-|-- app.py
-|-- core/
-|   |-- analytics.py
-|   |-- database.py
-|   `-- query_engine.py
-|-- data/                 # Local database; excluded from Git
-|-- tests/
-|   `-- test_query_engine.py
-|-- ui/
-|   `-- styles.py
-|-- requirements.txt
-|-- .gitignore
-`-- README.md
+??? app.py
+??? core/
+?   ??? ai_sql_generator.py
+?   ??? analytics.py
+?   ??? clarification_engine.py
+?   ??? database.py
+?   ??? query_engine.py
+?   ??? schema_inspector.py
+?   ??? session_store.py
+??? data/                    # Local SQLite database; excluded from Git
+??? evaluation/
+?   ??? evaluate_ambiguity.py
+?   ??? evaluation_cases.json
+?   ??? evaluation_results.json
+??? tests/
+??? ui/
+?   ??? styles.py
+??? .env.example
+??? .gitignore
+??? requirements.txt
+??? README.md
 ```
 
-## Setup on Windows
+## Getting Started on Windows
 
-### 1. Get the project
+### 1. Clone the repository
 
-Clone the repository or download its source code, then open PowerShell in the project directory.
+```powershell
+git clone https://github.com/umamfatima17/ClarifySQL.git
+cd ClarifySQL
+```
 
 ### 2. Create and activate a virtual environment
 
@@ -72,150 +86,113 @@ python -m pip install -r requirements.txt
 python -m core.database
 ```
 
-This creates the `data` directory and initializes the SQLite tables and reproducible sample data when the database is empty. The database file is excluded from Git, so each fresh clone should initialize its own sample database.
+This initializes the local SQLite database and sample retail data when initialization is needed. It does not reset an existing populated database.
 
-**Important:** The initializer does not reset an existing database. It skips generating sales when orders already exist.
-
-### 5. Run the application
+### 5. Start the application
 
 ```powershell
 python -m streamlit run app.py --server.port 8507
 ```
 
-Open `http://localhost:8507` in your browser.
+Open [http://localhost:8507](http://localhost:8507) in your browser.
 
 ## Example Questions
 
-### Revenue and profit
+Try questions such as:
 
 - What is the total revenue?
 - What is the total profit?
 - Total profit kitna hai?
-
-### Products
-
 - Which product has the highest revenue?
 - Which product has the highest profit?
 - Show top 5 products.
-- Which products contributed most to the revenue decline?
-- Which product is best?  
-  The application should ask whether 'best' means revenue, profit, or units sold.
-
-### Trends and categories
-
 - Show monthly revenue.
-- Compare monthly revenue.
-- Compare revenue by category.
-
-### Orders
-
+- Compare March 2026 revenue with April 2026.
 - How many orders were cancelled?
+- Which product is the best?
 
-Question recognition depends on supported patterns. Clarification and language coverage are limited; the application may not understand every possible question.
+For ambiguous questions such as "Which product is the best?", ClarifySQL can ask which metric to use, such as revenue, profit, or units sold. Available results depend on the database contents and supported query patterns.
+
+## Clarification Sessions
+
+Clarification conversations can be saved in the local SQLite database. Pending sessions can be resumed through the application, allowing users to continue answering clarification questions rather than starting over.
+
+The session store uses separate tables for clarification sessions and their messages. These tables are initialized by the application.
 
 ## SQL Safety
 
-ClarifySQL validates its predefined SQL queries before execution.
+ClarifySQL uses SQLGlot and application-level checks to validate analytics queries before execution.
 
-- SQL is parsed using SQLGlot.
-- Only one read-only `SELECT` statement is accepted.
-- References are restricted to approved database tables.
-- SQLite is opened in read-only mode for analytics queries.
-- SQLite query-only mode and an authorizer provide additional restrictions.
+The safeguards include:
 
-These safeguards reduce the risk of unintended database changes but do not guarantee protection against every possible security vulnerability.
+- Restricting accepted SQL to a single read-only `SELECT` statement.
+- Restricting references to approved database tables.
+- Opening analytics connections in read-only mode.
+- Applying SQLite query-only mode and an authorizer.
+
+These measures reduce the risk of unintended database modifications. They do not guarantee protection against every possible security vulnerability or incorrect business interpretation.
+
+## Optional AI SQL Fallback
+
+The deterministic query engine works without an external AI API. An optional AI SQL fallback can be configured with an OpenAI-compatible chat-completions endpoint.
+
+Set these variables in the PowerShell session before starting the application:
+
+```powershell
+$env:CLARIFYSQL_AI_API_KEY = "your-api-key"
+
+# Optional overrides
+$env:CLARIFYSQL_AI_BASE_URL = "https://api.openai.com/v1"
+$env:CLARIFYSQL_AI_MODEL = "gpt-4o-mini"
+
+python -m streamlit run app.py --server.port 8507
+```
+
+Use your own valid API key. Never commit credentials or paste them into source code. Keep `.env` and other secret files out of Git.
+
+Generated SQL must still pass the application's validation before execution. AI-generated output may be incorrect, and SQL validation alone cannot guarantee that an answer is business-correct. Without an API key, the optional fallback remains inactive.
 
 ## Running Tests
 
-From the project root, activate the virtual environment and run:
+Run the full automated test suite from the project root:
 
 ```powershell
 python -m unittest discover -s tests -v
 ```
 
-To check Python syntax:
+Check Python syntax:
 
 ```powershell
-python -m py_compile app.py core\analytics.py core\database.py core\query_engine.py ui\styles.py tests\test_query_engine.py
+python -m compileall -q app.py core tests
 ```
 
-## Sample Database
+## Ambiguity Evaluation
 
-The project includes a reproducible sample-data initializer in `core/database.py`. It creates a local SQLite database with products, orders, and order items. Analytics results depend on the data in the local database.
+The project includes a small labeled dataset for evaluating its ambiguity detector.
 
-The database file is excluded from Git. Do not commit private or production data.
-
-## Optional AI SQL Configuration
-
-The deterministic query engine works without an external AI service. To enable
-the optional AI SQL fallback, configure an API key for an OpenAI-compatible
-chat-completions endpoint in the PowerShell session used to run ClarifySQL:
+Run the evaluation:
 
 ```powershell
-$env:CLARIFYSQL_AI_API_KEY = "your-api-key"
-# Optional overrides:
-$env:CLARIFYSQL_AI_BASE_URL = "https://api.openai.com/v1"
-$env:CLARIFYSQL_AI_MODEL = "gpt-4o-mini"
-python -m streamlit run app.py --server.port 8507
+python .\evaluation\evaluate_ambiguity.py
 ```
 
-Do not commit API keys or paste them into source files. The fallback validates
-generated SQL with the application's read-only SQL validator before execution.
-AI output can still be incorrect, and schema access or SQL validation does not
-guarantee that an answer is business-correct. Without an API key, this optional
-fallback remains inactive.
+The evaluation reports metrics such as accuracy, precision, recall, F1, and confusion-matrix counts against a simple baseline. Results are based only on the included examples; they do not establish general performance on unseen questions or SQL-answer accuracy.
+
+## Data and Privacy
+
+The sample database is local and excluded from Git. Initialize it separately after cloning. Do not commit private, production, or otherwise sensitive data.
+
+The `.venv` directory, Python caches, local database files, and local credentials should remain outside version control.
 
 ## Current Limitations
 
-- Deterministic question patterns and SQL templates work without an API key. An optional OpenAI-compatible AI SQL fallback is available when configured.
-- Only supported question patterns are interpreted.
-- The sample dataset covers January through June 2026.
-- Results depend on the local database contents.
-- Automated tests do not cover every UI interaction.
-- The application is intended as a local demonstration, not a production multi-user analytics service.
-
-## Future Improvements
-
-- Broaden natural-language question coverage and ambiguity clarification
-- Add UI and end-to-end tests
-- Expand business analytics
-- Improve setup automation and documentation
+- Only supported natural-language patterns and intents are handled.
+- The sample dataset covers a limited period and business schema.
+- AI SQL generation requires separately configured API access.
+- The evaluation dataset is small and manually labeled.
+- Automated tests do not cover every possible UI interaction.
+- The application is intended as a local project demonstration, not a production multi-user analytics service.
 
 ## License
 
-No open-source license has been specified. Add a `LICENSE` file before publishing if you want to grant users explicit open-source permissions.
-
-
-## Evaluation
-
-ClarifySQL includes a small labeled dataset for evaluating its ambiguity detector.
-
-Run the evaluation from the project root:
-
-```powershell
-& ".\.venv\Scripts\python.exe" ".\evaluation\evaluate_ambiguity.py"
-```
-
-The runner compares the detector with a baseline that never asks for clarification.
-It reports accuracy, precision, recall, F1, and confusion-matrix counts.
-Detailed output is written to `evaluation/evaluation_results.json`.
-
-These results measure agreement with the included sample labels only. They do
-not establish SQL-answer accuracy or guarantee performance on unseen questions.
-Review and expand the dataset as supported business intents evolve.
-
-## Optional AI configuration
-
-AI SQL generation is optional. Without `CLARIFYSQL_AI_API_KEY`, ClarifySQL
-continues to use its deterministic query handling.
-
-Set the API key in your local PowerShell session without writing it into source
-files:
-
-```powershell
-$env:CLARIFYSQL_AI_API_KEY = "your-real-api-key"
-$env:CLARIFYSQL_AI_BASE_URL = "https://api.openai.com/v1"
-$env:CLARIFYSQL_AI_MODEL = "gpt-4o-mini"
-```
-
-Keep the key private and never commit it to Git.
+No open-source license has been specified. Add a `LICENSE` file if you intend to grant others explicit permission to use, modify, or distribute this project.
