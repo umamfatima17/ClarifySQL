@@ -35,29 +35,31 @@ Question recognition is based on supported patterns and available data. The appl
 
 ```text
 ClarifySQL/
-??? app.py
-??? core/
-?   ??? ai_sql_generator.py
-?   ??? analytics.py
-?   ??? clarification_engine.py
-?   ??? database.py
-?   ??? query_engine.py
-?   ??? schema_inspector.py
-?   ??? session_store.py
-??? data/                    # Local SQLite database; excluded from Git
-??? evaluation/
-?   ??? evaluate_ambiguity.py
-?   ??? evaluation_cases.json
-?   ??? evaluation_results.json
-??? tests/
-??? ui/
-?   ??? styles.py
-??? .env.example
-??? .gitignore
-??? requirements.txt
-??? README.md
+|-- app.py
+|-- core/
+|   |-- ai_sql_generator.py
+|   |-- analytics.py
+|   |-- clarification_engine.py
+|   |-- database.py
+|   |-- query_engine.py
+|   |-- schema_inspector.py
+|   `-- session_store.py
+|-- data/
+|   `-- __init__.py
+|-- evaluation/
+|   |-- evaluate_ambiguity.py
+|   |-- evaluation_cases.json
+|   `-- evaluation_results.json
+|-- tests/
+|-- ui/
+|   `-- styles.py
+|-- .env.example
+|-- .gitignore
+|-- requirements.txt
+`-- README.md
 ```
 
+> Local SQLite databases are excluded from Git and remain on your computer.
 ## Getting Started on Windows
 
 ### 1. Clone the repository
