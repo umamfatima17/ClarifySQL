@@ -1,0 +1,63 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python generated files and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environment variables and secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Local databases and database sidecar files
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.sqlite-journal
+*.db-wal
+*.db-shm
+
+# Temporary backups and cleanup archive
+cleanup_archive/
+*.bak
+*.tmp
+*.log
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local audit and patch scripts
+.apply_clarifysql_patch.py
+.fix_database_main.py
+audit_database_initialization.py
+smoke_test_all_questions.py
+app.py.encoding_backup
+app.py.encoding_backup.*
+.gitignore.pre_git_backup
+
+# Dated local project backups
+clarification_*_backup_*/
+clarifysql_*_backup_*/
+explainable_results_backup_*/
+integration_backup_*/
+
+# Local test output
+test_results.txt
+
+# Main project backup folders
+clarifysql_backup_*/
+
+# Timestamped local backups
+*.bak_*

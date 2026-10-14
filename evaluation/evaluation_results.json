@@ -1,0 +1,270 @@
+{
+  "dataset_size": 20,
+  "clarification_detector": {
+    "total": 20,
+    "true_positive": 5,
+    "false_positive": 0,
+    "true_negative": 15,
+    "false_negative": 0,
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "details": [
+      {
+        "question": "Show me the top products",
+        "expected_clarification": true,
+        "predicted_clarification": true,
+        "correct": true
+      },
+      {
+        "question": "Which are the best products?",
+        "expected_clarification": true,
+        "predicted_clarification": true,
+        "correct": true
+      },
+      {
+        "question": "List popular items",
+        "expected_clarification": true,
+        "predicted_clarification": true,
+        "correct": true
+      },
+      {
+        "question": "Show top-selling products",
+        "expected_clarification": true,
+        "predicted_clarification": true,
+        "correct": true
+      },
+      {
+        "question": "Find the best products in Electronics",
+        "expected_clarification": true,
+        "predicted_clarification": true,
+        "correct": true
+      },
+      {
+        "question": "Show the top 5 products by revenue",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Which product generated the most revenue?",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Which product sold the most units?",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "What is the total revenue?",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "What is the total gross profit?",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Show monthly revenue",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Compare revenue in January and February 2026",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "List all product categories",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Show completed orders",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "How many orders were cancelled?",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Show top products by revenue",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Show best-selling items by units sold",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Calculate revenue for Wireless Mouse",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Show products in the Accessories category",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Show the highest gross profit product",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      }
+    ]
+  },
+  "baseline_never_clarifies": {
+    "total": 20,
+    "true_positive": 0,
+    "false_positive": 0,
+    "true_negative": 15,
+    "false_negative": 5,
+    "accuracy": 0.75,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "details": [
+      {
+        "question": "Show me the top products",
+        "expected_clarification": true,
+        "predicted_clarification": false,
+        "correct": false
+      },
+      {
+        "question": "Which are the best products?",
+        "expected_clarification": true,
+        "predicted_clarification": false,
+        "correct": false
+      },
+      {
+        "question": "List popular items",
+        "expected_clarification": true,
+        "predicted_clarification": false,
+        "correct": false
+      },
+      {
+        "question": "Show top-selling products",
+        "expected_clarification": true,
+        "predicted_clarification": false,
+        "correct": false
+      },
+      {
+        "question": "Find the best products in Electronics",
+        "expected_clarification": true,
+        "predicted_clarification": false,
+        "correct": false
+      },
+      {
+        "question": "Show the top 5 products by revenue",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Which product generated the most revenue?",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Which product sold the most units?",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "What is the total revenue?",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "What is the total gross profit?",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Show monthly revenue",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Compare revenue in January and February 2026",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "List all product categories",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Show completed orders",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "How many orders were cancelled?",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Show top products by revenue",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Show best-selling items by units sold",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Calculate revenue for Wireless Mouse",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Show products in the Accessories category",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      },
+      {
+        "question": "Show the highest gross profit product",
+        "expected_clarification": false,
+        "predicted_clarification": false,
+        "correct": true
+      }
+    ]
+  },
+  "note": "Metrics measure agreement with this small labeled dataset; they are not a guarantee of real-world performance."
+}
