@@ -5,6 +5,14 @@ import streamlit as st
 import streamlit.components.v1 as components
 from core.query_engine import answer_question, resolve_follow_up_question
 from core.clarification_engine import detect_clarification
+from core.session_store import (
+    initialize_session_tables,
+    create_session,
+    add_session_message,
+    update_session,
+    get_session,
+    list_pending_sessions,
+)
 
 from core.analytics import (
     get_overall_metrics,
@@ -22,6 +30,7 @@ st.set_page_config(
 )
 
 load_styles()
+initialize_session_tables()
 
 
 def money(value):
@@ -546,6 +555,39 @@ def ask_your_data():
     if "scroll_run_id" not in st.session_state:
         st.session_state["scroll_run_id"] = 0
 
+    saved_sessions = list_pending_sessions()
+    if saved_sessions:
+        st.markdown("**Resume a saved clarification**")
+        session_labels = {
+            item["original_question"]:
+                item["session_id"]
+            for item in saved_sessions
+        }
+        selected_saved = st.selectbox(
+            "Saved questions",
+            ["Choose a saved question..."] + list(session_labels),
+            key="saved_clarification_session",
+        )
+        if st.button("Resume clarification"):
+            if selected_saved in session_labels:
+                saved_session = get_session(
+                    session_labels[selected_saved]
+                )
+                if saved_session:
+                    saved_result = saved_session["context"].get("result")
+                    if saved_result:
+                        st.session_state["active_session_id"] = (
+                            session_labels[selected_saved]
+                        )
+                        st.session_state["query_result"] = saved_result
+                        st.session_state["scroll_to_result"] = True
+                        st.rerun()
+                    else:
+                        st.warning(
+                            "This saved session has no resumable question."
+                        )
+
+
     left, right = st.columns([1.5, 1], gap="large")
 
     with left:
@@ -575,6 +617,7 @@ def ask_your_data():
         ):
             st.session_state["scroll_run_id"] += 1
             st.session_state["scroll_to_result"] = True
+            st.session_state["active_session_id"] = None
 
             submitted_question = st.session_state.get(
                 "business_question", ""
@@ -595,11 +638,27 @@ def ask_your_data():
                     clarification = detect_clarification(resolved_question)
 
                     if clarification:
-                        st.session_state["query_result"] = {
+                        pending_result = {
                             "clarification": clarification,
                             "submitted_question": submitted_question,
                             "clarification_history": [],
                         }
+                        session_id = create_session(
+                            submitted_question,
+                            context={"result": pending_result},
+                        )
+                        pending_result["session_id"] = session_id
+                        st.session_state["active_session_id"] = session_id
+                        update_session(
+                            session_id,
+                            context={"result": pending_result},
+                        )
+                        add_session_message(
+                            session_id,
+                            "assistant",
+                            clarification.get("prompt", "Clarification required"),
+                        )
+                        st.session_state["query_result"] = pending_result
                     else:
                         with st.spinner(
                             "Interpreting question and querying data..."
@@ -660,6 +719,28 @@ def ask_your_data():
             )
 
     result = st.session_state.get("query_result")
+
+    active_session_id = st.session_state.get("active_session_id")
+    if result and active_session_id and not result.get("clarification"):
+        saved_session = get_session(active_session_id)
+        if saved_session and saved_session["status"] == "pending":
+            has_error = bool(result.get("error")) or any(
+                item.get("error") for item in result.get("answers", [])
+            )
+            add_session_message(
+                active_session_id,
+                "assistant",
+                "Clarification ended with an error."
+                if has_error else "Clarification completed successfully.",
+            )
+            update_session(
+                active_session_id,
+                status="error" if has_error else "completed",
+                context={
+                    "submitted_question": result.get("submitted_question", ""),
+                    "clarification_history": result.get("clarification_history", []),
+                },
+            )
 
     if result:
         st.markdown(
@@ -835,6 +916,20 @@ def ask_your_data():
                             current_result["clarification_history"] = [
                                 selected_metric
                             ]
+                            session_id = current_result.get("session_id")
+                            if session_id:
+                                add_session_message(
+                                    session_id, "user", selected_metric
+                                )
+                                update_session(
+                                    session_id,
+                                    context={"result": current_result},
+                                )
+                                add_session_message(
+                                    session_id,
+                                    "assistant",
+                                    next_clarification.get("prompt", ""),
+                                )
                             st.session_state["query_result"] = current_result
                             st.rerun()
                         else:
@@ -1297,7 +1392,7 @@ def ask_your_data():
                             font-size: 14px;
                             font-weight: 600;
                             margin: 12px 0;
-                        ">âœ“ {len(result_df)} records found</div>
+                        ">&#10003; {len(result_df)} records found</div>
                         """,
                         unsafe_allow_html=True,
                     )
